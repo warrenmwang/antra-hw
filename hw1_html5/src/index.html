@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="antra homework 1" />
+    <meta name="author" content="Warren Wang" />
+    <title>Sign Up Form</title>
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <script src="./script.js"></script>
+    <section>
+      <form id="signUpForm" onsubmit="registerOption();">
+        <h1>Sign Up</h1>
+        <div class="flex-container-row">
+          <input
+            id="firstName"
+            class="flex-item-row"
+            type="text"
+            placeholder="First Name"
+            required
+          />
+          <input
+            id="lastName"
+            class="flex-item-row"
+            type="text"
+            placeholder="Last Name"
+            required
+          />
+        </div>
+
+        <div class="flex-container-col">
+          <input
+            id="mobilePhoneNumber"
+            class="flex-item-col"
+            type="tel"
+            placeholder="Mobile No."
+            required
+          />
+          <input
+            id="email"
+            class="flex-item-col"
+            type="email"
+            placeholder="Email Address"
+            required
+          />
+        </div>
+
+        <div class="flex-container-row">
+          <input
+            id="password"
+            class="flex-item-row"
+            type="password"
+            placeholder="Password"
+            required
+          />
+          <input
+            id="confirmPassword"
+            class="flex-item-row"
+            type="password"
+            placeholder="Confirm Password"
+            required
+          />
+        </div>
+
+        <div class="flex-container-row">
+          <div class="flex-item-row">
+            <div class="checkbox-container">
+              <input
+                id="tosCheckbox"
+                type="checkbox"
+                class="flex-item-row"
+                required
+              />
+              <label id="tosLabel" for="tosCheckbox">I Agree</label>
+            </div>
+          </div>
+          <p class="flex-item-row">
+            By clicking <span class="blueBlock">Register</span>, you agree to
+            the <a href="./TermsAndConditions.html">Terms and Conditions</a> set
+            out by this site, including our Cookie Use.
+          </p>
+        </div>
+
+        <div class="flex-container-row">
+          <button id="register" class="flex-item-row blueButton" type="submit">
+            Register
+          </button>
+          <button
+            id="signIn"
+            class="flex-item-row greenButton"
+            type="button"
+            onclick="signInOption();"
+          >
+            Sign In
+          </button>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>

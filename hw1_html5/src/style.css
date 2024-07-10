@@ -1,0 +1,110 @@
+h1 {
+  text-align: center;
+}
+
+input {
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+input:focus {
+  outline: 2px solid #93c6ef;
+}
+
+label {
+  font-weight: bold;
+  font-size: 10px;
+}
+
+#signUpForm {
+  margin: auto;
+  min-width: fit-content;
+  font-family: sans-serif;
+}
+
+#tosLabel {
+  align-items: left;
+  min-width: fit-content;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.blueBlock {
+  background-color: #428bca;
+  font-weight: normal;
+  color: white;
+  padding: 2px;
+  padding-inline: 5px;
+  border-radius: 5%;
+}
+
+.blueButton {
+  background-color: #428bca;
+  font-weight: normal;
+  color: white;
+  padding: 10px;
+  border-radius: 5%;
+  border-style: none;
+  width: 30vh;
+}
+
+.blueButton:hover {
+  background-color: #1c5d96;
+}
+
+.greenButton {
+  background-color: #5cb85c;
+  font-weight: normal;
+  color: white;
+  padding: 10px;
+  border-radius: 5%;
+  border-style: none;
+  width: 30vh;
+}
+
+.greenButton:hover {
+  background-color: #2b882b;
+}
+
+.flex-container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.flex-item-row {
+  flex-grow: 1;
+  padding: 10px;
+  margin: 5px;
+}
+
+.flex-container-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-item-col {
+  padding: 10px;
+  margin: 5px;
+}
+
+/* Set some arbitrary width to change shape of form for smaller viewports*/
+@media (max-width: 600px) {
+  .flex-container-row {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .flex-item-row {
+    max-width: 85vh;
+  }
+
+  .flex-item-col {
+    max-width: 85vh;
+  }
+}

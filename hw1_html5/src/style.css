@@ -31,6 +31,7 @@ label {
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-content: flex-start;
 }
 
 .blueBlock {
@@ -93,8 +94,12 @@ label {
   margin: 5px;
 }
 
+.start-align {
+  align-content: flex-start;
+}
+
 /* Set some arbitrary width to change shape of form for smaller viewports*/
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .flex-container-row {
     flex-direction: column;
     gap: 0px;

@@ -156,11 +156,15 @@ function testMyMap() {
   const parsedNumbers1 = numbers1.myMap((str) => parseInt(str, 10));
   console.log(JSON.stringify(parsedNumbers1) === JSON.stringify([1, 2, 3]));
   console.log(JSON.stringify(numbers1) === JSON.stringify(["1", "2", "3"]));
+
+  const empty = [];
+  console.log(JSON.stringify([]) === JSON.stringify(empty.myMap((value) => value + 1)));
+  console.log(JSON.stringify([]) === JSON.stringify(empty.myMap()));
 }
 
 function testMyFilter() {
   const words = ['spray', 'elite', 'exuberant', 'destruction', 'present'];
-  const result = words.filter((word) => word.length > 6);
+  const result = words.myFilter((word) => word.length > 6);
   console.log(JSON.stringify(words) === JSON.stringify(['spray', 'elite', 'exuberant', 'destruction', 'present']));
   console.log(JSON.stringify(result) === JSON.stringify(["exuberant", "destruction", "present"]));
 
@@ -168,10 +172,12 @@ function testMyFilter() {
     return value >= 10;
   }
   const beforeFilter = [12, 5, 8, 130, 44]
-  const filtered = beforeFilter.filter(isBigEnough);
+  const filtered = beforeFilter.myFilter(isBigEnough);
   console.log(JSON.stringify(beforeFilter) === JSON.stringify([12, 5, 8, 130, 44]));
   console.log(JSON.stringify(filtered) === JSON.stringify([12, 130, 44]));
 
+  const empty = [];
+  console.log(JSON.stringify([]) === JSON.stringify(empty.myFilter()))
 }
 
 function testMyReduce() {
@@ -200,8 +206,6 @@ function testMyReduce() {
   // callback is not invoked
   console.log([50].myReduce(getMax) === 50); // 50
   console.log([].myReduce(getMax, 1) === 1); // 1
-
-
 }
 
 function testMyEvery() {
@@ -250,7 +254,7 @@ function testMyFind() {
       if (idx < arr.length - 1 && num >= arr[idx + 1]) return false;
       return true;
     });
-  console.log(firstTrough === 1); // 1
+  console.log(firstTrough === 1);
 }
 
 function testMyJoin() {
@@ -267,4 +271,6 @@ function testMyJoin() {
   console.log([1, , 3].myJoin() === '1,,3');
   console.log([1, undefined, 3].myJoin() === '1,,3'); 
 
+  const b = [];
+  console.log(b.myJoin() === "");
 }

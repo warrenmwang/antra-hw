@@ -18,40 +18,66 @@ map, filter, reduce, every, find, includes, join, pop, push, reverse, slice, sor
 */
 
 // 1. map
-Array.prototype.myMap = function(cb, thisArg) {
+Array.prototype.myMap = function (cb, thisArg) {
+  if (typeof cb !== "function") {
+    throw new TypeError(`${typeof cb} ${JSON.stringify(cb)} is not a function`);
+  }
+
   let ptr = this;
   if (thisArg !== undefined) {
     ptr = thisArg;
   }
 
   let newArr = [];
-  for(let i = 0; i < ptr.length; i++) {
+  for (let i = 0; i < ptr.length; i++) {
     newArr.push(cb(ptr[i], i, ptr));
   }
   return newArr;
-}
+};
 testMyMap();
 
 // 2. filter - returns shallow copy
-Array.prototype.myFilter = function(cb, thisArg) {
+Array.prototype.myFilter = function (cb, thisArg) {
+  if (typeof cb !== "function") {
+    throw new TypeError(`${typeof cb} ${JSON.stringify(cb)} is not a function`);
+  }
+
   let ptr = this;
   if (thisArg !== undefined) {
     ptr = thisArg;
   }
 
-  let arr = Array.from(ptr)
+  let arr = Array.from(ptr);
   let newArr = [];
-  for(let i = 0; i < arr.length; i++){ 
+  for (let i = 0; i < arr.length; i++) {
     if (cb(arr[i], i, arr)) {
-      newArr.push(arr[i])
+      newArr.push(arr[i]);
     }
   }
   return newArr;
-}
-testMyFilter()
+};
+testMyFilter();
 
 // 3. reduce
-Array.prototype.myReduce = function(cb, initialValue) {
+Array.prototype.myReduce = function (cb, initialValue) {
+  if (typeof cb !== "function") {
+    throw new TypeError(`${typeof cb} ${JSON.stringify(cb)} is not a function`);
+  }
+
+  // precheck: consider list empty if all undefined values.
+  let arrLen = 0;
+  for (let i = 0; i < this.length; i++) {
+    if (this[i] !== undefined) {
+      arrLen = this.length;
+      break;
+    }
+  }
+
+  // error if empty array and init val is not given
+  if (arrLen === 0 && initialValue === undefined) {
+    throw new TypeError("Reduce of empty array with no initial value");
+  }
+
   let init = initialValue;
   let startIdx = 0;
   if (initialValue === undefined) {
@@ -60,58 +86,68 @@ Array.prototype.myReduce = function(cb, initialValue) {
   }
   let acum = init;
 
-  for(let i = startIdx; i < this.length; i++) {
-    acum = cb(acum, this[i], i, this);
+  for (let i = startIdx; i < arrLen; i++) {
+    // prevent empty values from destroying result
+    if (this[i] !== undefined) acum = cb(acum, this[i], i, this);
   }
   return acum;
-}
-testMyReduce()
+};
+testMyReduce();
 
 // 4. every
-Array.prototype.myEvery = function(cb, thisArg) {
+Array.prototype.myEvery = function (cb, thisArg) {
+  if (typeof cb !== "function") {
+    throw new TypeError(`${typeof cb} ${JSON.stringify(cb)} is not a function`);
+  }
+
   let ptr = this;
   if (thisArg !== undefined) {
     ptr = thisArg;
   }
 
-  for(let i = 0; i < ptr.length; i++) {
-    if (! cb(ptr[i], i, ptr)) {
+  for (let i = 0; i < ptr.length; i++) {
+    if (ptr[i] === undefined) continue; // skip undefined / empty values.
+    if (!cb(ptr[i], i, ptr)) {
       return false;
     }
   }
 
   return true;
-}
-testMyEvery()
+};
+testMyEvery();
 
 // 5. find
-Array.prototype.myFind = function(cb, thisArg) {
+Array.prototype.myFind = function (cb, thisArg) {
+  if (typeof cb !== "function") {
+    throw new TypeError(`${typeof cb} ${JSON.stringify(cb)} is not a function`);
+  }
+
   let ptr = this;
   if (thisArg !== undefined) {
     ptr = thisArg;
   }
 
-  for(let i = 0; i < ptr.length; i++) {
+  for (let i = 0; i < ptr.length; i++) {
     if (cb(ptr[i], i, ptr)) {
       return ptr[i];
     }
   }
 
   return undefined;
-}
-testMyFind()
+};
+testMyFind();
 
 // 6. join
-Array.prototype.myJoin = function(separator) {
+Array.prototype.myJoin = function (separator) {
   let sep = ",";
   if (separator !== undefined) {
-    sep = separator;
+    sep = `${separator}`; // in case separator is not a string (e.g. number)
   }
 
   let res = "";
   let val;
-  for(let i = 0; i < this.length; i++){
-    val = this[i];
+  for (let i = 0; i < this.length; i++) {
+    val = this[i] !== undefined ? this[i] : ""; // empty str if undefined/empty
 
     if (i === 0) {
       res = val;
@@ -126,8 +162,8 @@ Array.prototype.myJoin = function(separator) {
   }
 
   return res;
-}
-testMyJoin()
+};
+testMyJoin();
 
 // ------------------------ TESTS ------------------------
 // tests taken from the mdn docs examples
@@ -135,22 +171,28 @@ testMyJoin()
 function testMyMap() {
   const numbers = [1, 4, 9];
   const roots = numbers.myMap((num) => Math.sqrt(num));
-  console.log(JSON.stringify([1, 2, 3]) === JSON.stringify(roots))
-  console.log(JSON.stringify([1,4,9]) === JSON.stringify(numbers))
+  console.log(JSON.stringify([1, 2, 3]) === JSON.stringify(roots));
+  console.log(JSON.stringify([1, 4, 9]) === JSON.stringify(numbers));
 
   const kvArray = [
     { key: 1, value: 10 },
     { key: 2, value: 20 },
     { key: 3, value: 30 },
   ];
-  const reformattedArray = kvArray.myMap(({ key, value }) => ({ [key]: value }));
-  console.log(JSON.stringify(reformattedArray) === JSON.stringify([{ 1: 10 }, { 2: 20 }, { 3: 30 }]));
-  console.log(JSON.stringify(
-  [
-    { key: 1, value: 10 },
-    { key: 2, value: 20 },
-    { key: 3, value: 30 },
-  ]) === JSON.stringify(kvArray))
+  const reformattedArray = kvArray.myMap(({ key, value }) => ({
+    [key]: value,
+  }));
+  console.log(
+    JSON.stringify(reformattedArray) ===
+      JSON.stringify([{ 1: 10 }, { 2: 20 }, { 3: 30 }])
+  );
+  console.log(
+    JSON.stringify([
+      { key: 1, value: 10 },
+      { key: 2, value: 20 },
+      { key: 3, value: 30 },
+    ]) === JSON.stringify(kvArray)
+  );
 
   const numbers1 = ["1", "2", "3"];
   const parsedNumbers1 = numbers1.myMap((str) => parseInt(str, 10));
@@ -158,26 +200,94 @@ function testMyMap() {
   console.log(JSON.stringify(numbers1) === JSON.stringify(["1", "2", "3"]));
 
   const empty = [];
-  console.log(JSON.stringify([]) === JSON.stringify(empty.myMap((value) => value + 1)));
-  console.log(JSON.stringify([]) === JSON.stringify(empty.myMap()));
+  console.log(
+    JSON.stringify([]) === JSON.stringify(empty.myMap((value) => value + 1))
+  );
+
+  // empty callback function
+  try {
+    empty.myMap();
+    console.log(false); // should not reach this point.
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // non function callback function
+  try {
+    const x = [1, 2, 3, 4];
+    x.myMap(12); // not a function input
+    console.log(false); // should not reach this point.
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // with empty values
+  const x = [1, 2, , 3, 5];
+  console.log(
+    JSON.stringify(x.map((value) => value + 1)) ===
+      JSON.stringify(x.myMap((value) => value + 1))
+  );
+
+  const y = [, , , ,];
+  console.log(
+    JSON.stringify(y.map((value) => value + 1)) ===
+      JSON.stringify(y.myMap((value) => value + 1))
+  );
 }
 
 function testMyFilter() {
-  const words = ['spray', 'elite', 'exuberant', 'destruction', 'present'];
+  const words = ["spray", "elite", "exuberant", "destruction", "present"];
   const result = words.myFilter((word) => word.length > 6);
-  console.log(JSON.stringify(words) === JSON.stringify(['spray', 'elite', 'exuberant', 'destruction', 'present']));
-  console.log(JSON.stringify(result) === JSON.stringify(["exuberant", "destruction", "present"]));
+  console.log(
+    JSON.stringify(words) ===
+      JSON.stringify(["spray", "elite", "exuberant", "destruction", "present"])
+  );
+  console.log(
+    JSON.stringify(result) ===
+      JSON.stringify(["exuberant", "destruction", "present"])
+  );
 
   function isBigEnough(value) {
     return value >= 10;
   }
-  const beforeFilter = [12, 5, 8, 130, 44]
+  const beforeFilter = [12, 5, 8, 130, 44];
   const filtered = beforeFilter.myFilter(isBigEnough);
-  console.log(JSON.stringify(beforeFilter) === JSON.stringify([12, 5, 8, 130, 44]));
+  console.log(
+    JSON.stringify(beforeFilter) === JSON.stringify([12, 5, 8, 130, 44])
+  );
   console.log(JSON.stringify(filtered) === JSON.stringify([12, 130, 44]));
 
-  const empty = [];
-  console.log(JSON.stringify([]) === JSON.stringify(empty.myFilter()))
+  // empty
+  try {
+    [].myFilter();
+    console.log(false); // shouldn't reach this
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // empty values
+  const x = [1, 2, , 3, 5];
+  console.log(
+    JSON.stringify(x.filter((value) => value > 2)) ===
+      JSON.stringify(x.myFilter((value) => value > 2))
+  );
+  const y = [, , , ,];
+  console.log(
+    JSON.stringify(y.filter((value) => value > 2)) ===
+      JSON.stringify(y.myFilter((value) => value > 2))
+  );
 }
 
 function testMyReduce() {
@@ -186,14 +296,14 @@ function testMyReduce() {
   const initialValue = 10;
   const sumWithInitial = array1.myReduce(
     (accumulator, currentValue) => accumulator + currentValue,
-    initialValue,
+    initialValue
   );
   console.log(sumWithInitial === 95);
 
   // without initial value
   const array = [15, 16, 17, 18, 19];
-  const arrSum = array.myReduce((accum, curr) => accum + curr)
-  console.log(arrSum === 85)
+  const arrSum = array.myReduce((accum, curr) => accum + curr);
+  console.log(arrSum === 85);
 
   const getMax = (a, b) => Math.max(a, b);
   // callback is invoked for each element in the array starting at index 0
@@ -206,6 +316,53 @@ function testMyReduce() {
   // callback is not invoked
   console.log([50].myReduce(getMax) === 50); // 50
   console.log([].myReduce(getMax, 1) === 1); // 1
+
+  // empty
+  try {
+    [].reduce();
+    console.log(false);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // empty values
+  const x = [1, 2, , 3, 5];
+  console.log(
+    x.reduce((accum, value) => accum + value, 0) ===
+      x.myReduce((accum, value) => accum + value, 0)
+  );
+
+  const y = [, , , ,];
+  console.log(
+    y.reduce((accum, value) => accum + value, 0) ===
+      y.myReduce((accum, value) => accum + value, 0)
+  );
+
+  try {
+    y.reduce((accum, value) => accum + value);
+    console.log(false);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  try {
+    y.myReduce((accum, value) => accum + value);
+    console.log(false);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
 }
 
 function testMyEvery() {
@@ -231,6 +388,29 @@ function testMyEvery() {
       return num > arr[idx - 1];
     });
   console.log(isIncreasing === true);
+
+  // empty
+  try {
+    [].myEvery();
+    console.log(false);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // empty values
+  const x = [1, 2, , 3, 5];
+  console.log(
+    x.every((value) => value > 0) === x.myEvery((value) => value > 0)
+  );
+
+  const y = [, , , ,];
+  console.log(
+    y.every((value) => value > 0) === y.myEvery((value) => value > 0)
+  );
 }
 
 function testMyFind() {
@@ -242,7 +422,10 @@ function testMyFind() {
   function isCherries(fruit) {
     return fruit.name === "cherries";
   }
-  console.log(JSON.stringify(inventory.myFind(isCherries)) === JSON.stringify({ name: 'cherries', quantity: 5 }));
+  console.log(
+    JSON.stringify(inventory.myFind(isCherries)) ===
+      JSON.stringify({ name: "cherries", quantity: 5 })
+  );
 
   const numbers = [3, -1, 1, 4, 1, 5, 9, 2, 6];
   const firstTrough = numbers
@@ -255,22 +438,48 @@ function testMyFind() {
       return true;
     });
   console.log(firstTrough === 1);
+
+  // empty
+  try {
+    [].myFind();
+    console.log(false);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
+  // empty values
+  const x = [1, 2, , 3, 5];
+  console.log(
+    x.find((value) => value === 3) === x.myFind((value) => value === 3)
+  );
+
+  const y = [, , , ,];
+  console.log(
+    y.find((value) => value === 3) === y.myFind((value) => value === 3)
+  );
+  console.log(
+    y.find((value) => value === undefined) ===
+      y.myFind((value) => value === undefined)
+  );
 }
 
 function testMyJoin() {
-  const elements = ['Fire', 'Air', 'Water'];
+  const elements = ["Fire", "Air", "Water"];
   console.log(elements.myJoin() === "Fire,Air,Water");
-  console.log(elements.myJoin('') === "FireAirWater");
-  console.log(elements.myJoin('-') === "Fire-Air-Water");
+  console.log(elements.myJoin("") === "FireAirWater");
+  console.log(elements.myJoin("-") === "Fire-Air-Water");
 
   const a = ["Wind", "Water", "Fire"];
-  console.log(a.myJoin(", ") === 'Wind, Water, Fire'); 
-  console.log(a.myJoin(" + ") === 'Wind + Water + Fire'); 
-  console.log(a.myJoin("") === 'WindWaterFire'); 
+  console.log(a.myJoin(", ") === "Wind, Water, Fire");
+  console.log(a.myJoin(" + ") === "Wind + Water + Fire");
+  console.log(a.myJoin("") === "WindWaterFire");
 
-  console.log([1, , 3].myJoin() === '1,,3');
-  console.log([1, undefined, 3].myJoin() === '1,,3'); 
-
-  const b = [];
-  console.log(b.myJoin() === "");
+  console.log([1, , 3].myJoin() === "1,,3");
+  console.log([, , , ,].myJoin() === [, , , ,].join());
+  console.log([1, undefined, 3].myJoin() === "1,,3");
+  console.log([].myJoin() === "");
 }

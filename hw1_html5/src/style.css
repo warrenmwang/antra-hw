@@ -16,6 +16,17 @@ label {
   font-size: 10px;
 }
 
+.inset {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.container {
+  max-width: 70vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #signUpForm {
   margin: auto;
   min-width: fit-content;
@@ -43,31 +54,26 @@ label {
   border-radius: 5%;
 }
 
-.blueButton {
-  background-color: #428bca;
+.btn {
   font-weight: normal;
   color: white;
-  padding: 10px;
-  border-radius: 5%;
+  border-radius: 5px;
   border-style: none;
-  width: 30vh;
 }
 
-.blueButton:hover {
+.btn__blue {
+  background-color: #428bca;
+}
+
+.btn__blue:hover {
   background-color: #1c5d96;
 }
 
-.greenButton {
+.btn__green {
   background-color: #5cb85c;
-  font-weight: normal;
-  color: white;
-  padding: 10px;
-  border-radius: 5%;
-  border-style: none;
-  width: 30vh;
 }
 
-.greenButton:hover {
+.btn__green:hover {
   background-color: #2b882b;
 }
 

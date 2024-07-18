@@ -11,58 +11,60 @@
   </head>
   <body>
     <script src="./script.js"></script>
-    <section>
+    <div class="container">
       <form id="signUpForm" onsubmit="registerOption();">
         <h1>Sign Up</h1>
-        <div class="flex-container-row">
-          <input
-            id="firstName"
-            class="flex-item-row"
-            type="text"
-            placeholder="First Name"
-            required
-          />
-          <input
-            id="lastName"
-            class="flex-item-row"
-            type="text"
-            placeholder="Last Name"
-            required
-          />
-        </div>
+        <div class="inset">
+          <div class="flex-container-row">
+            <input
+              id="firstName"
+              class="flex-item-row"
+              type="text"
+              placeholder="First Name"
+              required
+            />
+            <input
+              id="lastName"
+              class="flex-item-row"
+              type="text"
+              placeholder="Last Name"
+              required
+            />
+          </div>
 
-        <div class="flex-container-col">
-          <input
-            id="mobilePhoneNumber"
-            class="flex-item-col"
-            type="tel"
-            placeholder="Mobile No."
-            required
-          />
-          <input
-            id="email"
-            class="flex-item-col"
-            type="email"
-            placeholder="Email Address"
-            required
-          />
-        </div>
+          <div class="flex-container-col">
+            <input
+              id="mobilePhoneNumber"
+              class="flex-item-col"
+              type="tel"
+              placeholder="Mobile No."
+              required
+            />
+            <input
+              id="email"
+              class="flex-item-col"
+              type="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
 
-        <div class="flex-container-row">
-          <input
-            id="password"
-            class="flex-item-row"
-            type="password"
-            placeholder="Password"
-            required
-          />
-          <input
-            id="confirmPassword"
-            class="flex-item-row"
-            type="password"
-            placeholder="Confirm Password"
-            required
-          />
+          <div class="flex-container-row">
+            <input
+              id="password"
+              class="flex-item-row"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            <input
+              id="confirmPassword"
+              class="flex-item-row"
+              type="password"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
         </div>
 
         <div class="flex-container-row">
@@ -83,13 +85,13 @@
           </p>
         </div>
 
-        <div class="flex-container-row">
-          <button id="register" class="flex-item-row blueButton" type="submit">
+        <div class="inset flex-container-row">
+          <button id="register" class="flex-item-row btn btn__blue" type="submit">
             Register
           </button>
           <button
             id="signIn"
-            class="flex-item-row greenButton"
+            class="flex-item-row btn btn__green"
             type="button"
             onclick="signInOption();"
           >

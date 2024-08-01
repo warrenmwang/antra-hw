@@ -24,7 +24,9 @@ function Todo({ todoObj, deleteTodo, editTodo }) {
 
   const handleEditSave = (e) => {
     e.preventDefault();
-    editTodo(todoObj.id, editText);
+    if (todoObj.content !== editText) {
+      editTodo(todoObj.id, editText); // commit changes if actually diff
+    }
     setShowEdit(!showEdit);
   };
 
@@ -33,15 +35,17 @@ function Todo({ todoObj, deleteTodo, editTodo }) {
       {showEdit ? (
         <form onSubmit={handleEditSave}>
           <input type="text" value={editText} onChange={handleInputText} />
-          <button className="todo__saveBtn" type="submit">
-            Save Changes
-          </button>
+          {todoObj.content !== editText && (
+            <button className="todo__saveBtn" type="submit">
+              Save Changes
+            </button>
+          )}
         </form>
       ) : (
         <p className="todo__content">{`> ${todoObj.content}`}</p>
       )}
       <button className="todo__editBtn" onClick={handleToggleEdit}>
-        Edit
+        {showEdit ? "Cancel" : "Edit"}
       </button>
       <button
         className="todo__deleteBtn"

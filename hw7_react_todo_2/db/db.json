@@ -1,20 +1,16 @@
 {
   "todos": [
     {
-      "id": "1e97b950-fd83-4fb0-a641-901ab8cefb8a",
-      "content": "watch kung fu panda"
-    },
-    {
       "id": "ba28b860-8ba9-4392-a442-65ac08c40e96",
       "content": "throw trash away"
     },
     {
-      "id": "2d4724b7-570e-4a2b-92a8-e8ebf7dce78c",
-      "content": "test"
+      "id": "29c90acc-d3ab-475e-b1de-f4c4c4f6475e",
+      "content": "water the plants"
     },
     {
-      "id": "1b4c38ce-8eac-4cc9-a59e-cc14f4e15279",
-      "content": "find love"
+      "id": "6792b9ae-19d5-45ed-a073-ab12dce1f510",
+      "content": "get a haircut"
     }
   ]
 }

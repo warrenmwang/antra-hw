@@ -1,0 +1,64 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.todo__list {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+
+.todo__item {
+  display: flex;
+  justify-content: left;
+  gap: 20px;
+}
+
+.todo__content {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.todo__addBtn {
+  background-color: rgb(18, 176, 18);
+  color: white;
+}
+
+.todo__addBtn:hover {
+  background-color: rgb(12, 128, 12);
+}
+
+.todo__deleteBtn {
+  background-color: rgb(240, 47, 47);
+  color: white;
+}
+
+.todo__deleteBtn:hover {
+  background-color: rgb(201, 26, 26);
+}
+
+.todo__editBtn {
+  background-color: rgb(131, 131, 255);
+  color: white;
+}
+
+.todo__editBtn:hover {
+  background-color: rgb(85, 85, 255);
+}
+
+.todo__saveBtn {
+  background-color: rgb(18, 176, 18);
+  color: white;
+}
+
+.todo__saveBtn:hover {
+  background-color: rgb(12, 128, 12);
+}
+
+.todo__createForm {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

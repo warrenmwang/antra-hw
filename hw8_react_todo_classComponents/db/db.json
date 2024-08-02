@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "id": "e9be341f-dc51-4eaf-a2b7-32c1494efd35",
+      "content": "throw trash away"
+    },
+    {
+      "id": "939bb9b9-cd59-4bd1-a21a-3aa9494181fe",
+      "content": "do laundry"
+    },
+    {
+      "id": "96330910-480f-48f6-bace-2a9738103f66",
+      "content": "cook dinner"
+    }
+  ]
+}

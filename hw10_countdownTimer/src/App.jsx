@@ -115,11 +115,17 @@ function App() {
             <label>Seconds</label>
           </>
         )}
-        <button onClick={handleStartTimer} disabled={started}>
-          START
+        {!started && (
+          <button className="btn__start" onClick={handleStartTimer}>
+            START
+          </button>
+        )}
+        <button className="btn__pause" onClick={handlePauseResumeTimer}>
+          PAUSE/RESUME
         </button>
-        <button onClick={handlePauseResumeTimer}>PAUSE/RESUME</button>
-        <button onClick={handleResetTimer}>RESET</button>
+        <button className="btn__reset" onClick={handleResetTimer}>
+          RESET
+        </button>
       </form>
       <h3>
         <CountDownDisplay countdown={countdown} />

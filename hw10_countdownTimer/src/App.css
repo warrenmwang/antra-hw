@@ -40,3 +40,30 @@
 .read-the-docs {
   color: #888;
 }
+
+.btn__start {
+  background-color: rgb(34, 162, 34);
+  color: white;
+}
+
+.btn__start:hover {
+  background-color: rgb(23, 123, 23);
+}
+
+.btn__pause {
+  background-color: gray;
+  color: white;
+}
+
+.btn__pause:hover {
+  background-color: rgb(101, 99, 99);
+}
+
+.btn__reset {
+  background-color: red;
+  color: white;
+}
+
+.btn__reset:hover {
+  background-color: rgb(199, 3, 3);
+}

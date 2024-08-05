@@ -1,0 +1,28 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+table,
+tr,
+th,
+td {
+  border: 2px solid;
+}
+
+tbody {
+  font-weight: normal;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+}
+
+.containter__vert {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}

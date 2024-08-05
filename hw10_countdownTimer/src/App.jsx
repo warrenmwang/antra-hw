@@ -12,18 +12,26 @@ function App() {
   const handleInputChange = (e) => {
     e.preventDefault();
     const { id, value } = e.target;
+    let valueTmp = value;
+    if (valueTmp === "") valueTmp = "0";
+    let valueInt = parseInt(valueTmp);
+
+    // pre-process / validation
+    if (id === "minutes" && valueInt > 99) {
+      valueInt = 99;
+    } else if (id === "seconds" && valueInt > 59) {
+      valueInt = 59;
+    }
+
     setTimer((prev) => ({
       ...prev,
-      [id]: value,
+      [id]: `${valueInt}`,
     }));
+
     if (id === "minutes") {
-      let tmp = value;
-      if (tmp === "") tmp = 0;
-      setCountdown(parseInt(tmp) * 60 + timer.seconds);
+      setCountdown(valueInt * 60 + timer.seconds);
     } else {
-      let tmp = value;
-      if (tmp === "") tmp = 0;
-      setCountdown(parseInt(tmp) + timer.minutes);
+      setCountdown(timer.minutes * 60 + valueInt);
     }
   };
 
@@ -34,7 +42,7 @@ function App() {
       return;
     }
 
-    setStarted(!started);
+    setStarted(true);
     const intervalId = setInterval(() => {
       setCountdown((prev) => prev - 1);
     }, 1000);
@@ -43,6 +51,11 @@ function App() {
 
   const handlePauseResumeTimer = (e) => {
     e.preventDefault();
+
+    if (!started) {
+      return;
+    }
+
     if (!togglePause) {
       // pause
       setTogglePause(!togglePause);
@@ -63,13 +76,16 @@ function App() {
     setCountdown(0);
     setTimer({ minutes: 0, seconds: 0 });
     setStarted(false);
+    setTogglePause(false);
   };
 
   useEffect(() => {
     if (countdown === 0 && started) {
-      alert("Timer is complete.");
       clearInterval(intervalIdRef.current);
+      setTimer({ minutes: 0, seconds: 0 });
       setStarted(false);
+      setTogglePause(false);
+      alert("Timer is complete.");
     }
   }, [countdown, started]);
 
@@ -77,22 +93,28 @@ function App() {
     <>
       <h1>Timer</h1>
       <form>
-        <input
-          id="minutes"
-          type="number"
-          value={timer.minutes}
-          min={0}
-          onChange={handleInputChange}
-        />
-        <label>Minutes</label>
-        <input
-          id="seconds"
-          type="number"
-          value={timer.seconds}
-          min={0}
-          onChange={handleInputChange}
-        />
-        <label>Seconds</label>
+        {!started && (
+          <>
+            <input
+              id="minutes"
+              type="number"
+              value={timer.minutes}
+              min={0}
+              max={99}
+              onChange={handleInputChange}
+            />
+            <label>Minutes</label>
+            <input
+              id="seconds"
+              type="number"
+              value={timer.seconds}
+              min={0}
+              max={59}
+              onChange={handleInputChange}
+            />
+            <label>Seconds</label>
+          </>
+        )}
         <button onClick={handleStartTimer} disabled={started}>
           START
         </button>

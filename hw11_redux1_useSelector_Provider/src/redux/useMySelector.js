@@ -32,7 +32,7 @@ export default function useMySelector(selectorFn, options) {
       setSelectedState(newSelected);
     });
     return () => unsubscribe();
-  });
+  }, []); // only run once when custom hook is called
 
   return selectedState;
 }
